@@ -10,7 +10,7 @@ $links = [
 [
 "section_text" => "Manage",
 "section_list" => [
-["href" => "user", "text" => "Users"],
+["href" => "users.index", "text" => "Users"],
 ["href" => "roles.index", "text" => "Roles"],
 ]
 ]

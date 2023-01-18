@@ -11,4 +11,9 @@ class UserController extends Controller
     {
         return view('pages.user.user-data', ['user' => User::class]);
     }
+
+    public function create()
+    {
+        return view('pages.user.user-new');
+    }
 }
