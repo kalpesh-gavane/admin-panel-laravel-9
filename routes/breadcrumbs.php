@@ -19,6 +19,12 @@ Breadcrumbs::for('users.create', function ($trail) {
     $trail->push('Create New User', route('users.create'));
 });
 
+// Dashboard > User > Create
+Breadcrumbs::for('users.edit', function ($trail, $id) {
+    $trail->parent('users.index');
+    $trail->push('Update User', route('users.edit', [$id]));
+});
+
 // Home > Blog
 Breadcrumbs::for('blog', function ($trail) {
     $trail->parent('home');

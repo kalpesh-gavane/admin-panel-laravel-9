@@ -43,6 +43,7 @@ class CreateUser extends Component
 
         $this->emit('saved');
         $this->reset('user');
+        return redirect()->route('users.index');
     }
 
     public function updateUser()
@@ -50,14 +51,13 @@ class CreateUser extends Component
         $this->resetErrorBag();
         $this->validate();
 
-        User::query()
-            ->where('id', $this->userId)
-            ->update([
-                "name" => $this->user->name,
-                "email" => $this->user->email,
-            ]);
+        User::find($this->userId)->update([
+            "name" => $this->user->name,
+            "email" => $this->user->email,
+        ]);
 
         $this->emit('saved');
+        return redirect()->route('users.index');
     }
 
     public function mount()

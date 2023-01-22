@@ -20,6 +20,7 @@ $links = [
 ],
 ];
 $navigation_links = array_to_object($links);
+
 @endphp
 
 <div class="main-sidebar">

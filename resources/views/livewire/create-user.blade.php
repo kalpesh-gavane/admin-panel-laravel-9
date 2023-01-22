@@ -11,7 +11,7 @@
 
         <x-slot name="form">
             <div class="form-group col-span-6 sm:col-span-3">
-                <x-jet-label for="name" value="{{ __('Nama') }}" />
+                <x-jet-label for="name" value="{{ __('Name') }}" />
                 <x-jet-input id="name" type="text" class="mt-1 block w-full form-control shadow-none" wire:model.defer="user.name" />
                 <x-jet-input-error for="user.name" class="mt-2" />
             </div>
@@ -25,14 +25,14 @@
             @if ($action == "createUser")
             <div class="form-group col-span-6 sm:col-span-3">
                 <x-jet-label for="password" value="{{ __('Password') }}" />
-                <small>Minimal 8 karakter</small>
+                <small>{{ __('passwords.minPwd') }}</small>
                 <x-jet-input id="password" type="password" class="mt-1 block w-full form-control shadow-none" wire:model.defer="user.password" />
                 <x-jet-input-error for="user.password" class="mt-2" />
             </div>
 
             <div class="form-group col-span-6 sm:col-span-3">
-                <x-jet-label for="password_confirmation" value="{{ __('Konfirmasi Password') }}" />
-                <small>Minimal 8 karakter</small>
+                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                <small>{{ __('passwords.minPwd') }}</small>
                 <x-jet-input id="password_confirmation" type="password" class="mt-1 block w-full form-control shadow-none" wire:model.defer="user.password_confirmation" />
                 <x-jet-input-error for="user.password_confirmation" class="mt-2" />
             </div>

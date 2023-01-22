@@ -6,7 +6,6 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-
     public function index()
     {
         return view('pages.user.user-data', ['user' => User::class]);
@@ -15,5 +14,10 @@ class UserController extends Controller
     public function create()
     {
         return view('pages.user.user-new');
+    }
+
+    public function edit($id)
+    {
+        return view('pages.user.user-edit',compact('id'));
     }
 }
