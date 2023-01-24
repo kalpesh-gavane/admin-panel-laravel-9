@@ -76,7 +76,7 @@
     <script src="{{ asset('stisla/js/scripts.js') }}"></script>
 
     <livewire:scripts />
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     @isset($script)
     {{ $script }}

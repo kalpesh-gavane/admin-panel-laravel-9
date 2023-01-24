@@ -15,7 +15,7 @@ class CreateRole extends Component
     protected function getRules()
     {
         $rules = [
-            'role.name' => 'required|string',
+            'role.name' => ($this->action == "createRole") ? ['required|unique:roles,name'] : ['required'],
             'role.guard_name' => 'required|string',
         ];
         return  $rules;
@@ -30,6 +30,7 @@ class CreateRole extends Component
 
         $this->emit('saved');
         $this->reset('role');
+        return redirect()->to(route('roles.index'));
     }
 
     public function updateRole()
@@ -37,16 +38,14 @@ class CreateRole extends Component
         $this->resetErrorBag();
         $this->validate();
 
-        Role::find($this->roleId)->update([
-            "name" => $this->role->name,
-            "guard_name" => $this->role->guard_name,
-        ]);
-
+        Role::find($this->roleId)->update($this->role->toArray());
         $this->emit('saved');
+        return redirect()->to(route('roles.index'));
     }
 
     public function mount()
     {
+
         if (!$this->role && $this->roleId) {
             $this->role = Role::find($this->roleId);
         }

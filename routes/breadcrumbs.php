@@ -25,10 +25,20 @@ Breadcrumbs::for('users.edit', function ($trail, $id) {
     $trail->push('Update User', route('users.edit', [$id]));
 });
 
-// Home > Blog
-Breadcrumbs::for('blog', function ($trail) {
-    $trail->parent('home');
-    $trail->push('Blog', route('blog'));
+
+Breadcrumbs::for('roles.index', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Roles', route('roles.index'));
+});
+
+Breadcrumbs::for('roles.create', function ($trail) {
+    $trail->parent('roles.index');
+    $trail->push('Role Create', route('roles.create'));
+});
+
+Breadcrumbs::for('roles.edit', function ($trail,$id) {
+    $trail->parent('roles.index');
+    $trail->push('Role Edit', route('roles.edit',[$id]));
 });
 
 // Home > Blog > [Category]
