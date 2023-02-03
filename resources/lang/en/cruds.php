@@ -15,6 +15,14 @@ return [
             'guard_name' => 'Guard Name',
         ]
     ],
+    'permission' => [
+        'name' => 'Permission',
+        'name2' => 'Permissions',
+        'fields' => [
+            'name' => 'Name',
+            'guard_name' => 'Guard Name',
+        ]
+    ],
     'user' => [
         'name' => 'Users',
         'fields' => [

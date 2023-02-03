@@ -26,6 +26,8 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
+
+  
         return view('admin.roles.index', [
             'role' => Role::class
         ]);

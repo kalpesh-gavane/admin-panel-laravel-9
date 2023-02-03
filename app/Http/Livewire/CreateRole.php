@@ -2,31 +2,51 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Spatie\Permission\Models\Role;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Log;
+use Livewire\{Component};
+use Spatie\Permission\Models\{Permission, Role};
 
 class CreateRole extends Component
 {
-    public $role;
-    public $roleId;
-    public $action;
-    public $button;
+    public $role, $roleId, $action, $button, $permissions, $selectedPermissions = [], $rolePermissions = [];
+    protected $listeners = ['selectedItem'];
 
     protected function getRules()
     {
-        $rules = [
-            'role.name' => ($this->action == "createRole") ? ['required|unique:roles,name'] : ['required'],
-            'role.guard_name' => 'required|string',
+        $rules = ($this->action == "updateRole") ? [
+            'role.name' => 'required|unique:roles,name,' . $this->roleId
+        ] : [
+            'role.guard_name' => 'required',
         ];
-        return  $rules;
+
+        return array_merge([
+            'role.name' => 'required|unique:roles'
+        ], $rules);
+    }
+
+    public function hydrate()
+    {
+        $this->emit('loadSelect2Hydrate');
+    }
+
+    public function selectedItem($value)
+    {
+        //$this->permissions = Permission::toBase()->get();
+        $this->selectedPermissions =  $value;
+        //dd($value);
     }
 
     public function createRole()
     {
-        $this->resetErrorBag();
-        $this->validate();
+        //    Log::alert($this->selectedPermissions);
+        //    Log::alert($this->role);
 
-        Role::create($this->role);
+        // $this->resetErrorBag();
+        // $this->validate();
+
+        $role = Role::create($this->role);
+        $role->syncPermissions($this->selectedPermissions);
 
         $this->emit('saved');
         $this->reset('role');
@@ -48,8 +68,10 @@ class CreateRole extends Component
 
         if (!$this->role && $this->roleId) {
             $this->role = Role::find($this->roleId);
+            $this->rolePermissions =  $this->role->permissions->pluck('name')->toArray();
         }
 
+        $this->permissions = Permission::get();
         $this->button = create_button($this->action, "Role");
     }
 

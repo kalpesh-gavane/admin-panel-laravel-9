@@ -10,7 +10,5 @@
 
     <div>
         <livewire:create-user action="createUser" />
-
-        <livewire:user-edit action="createUser" />
     </div>
 </x-app-layout>

@@ -18,6 +18,6 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        return view('pages.user.user-edit',compact('id'));
+        return view('pages.user.user-edit', compact('id'));
     }
 }
