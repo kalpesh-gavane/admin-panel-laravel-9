@@ -22,7 +22,6 @@
                     @foreach ($permissions as $permission)
                     @php
                     $permName = $permission['name'];
-                    Log::info($rolePermissions);
                     @endphp
                     <option value="{{ $permission['id'] }}" @if(in_array($permName,$rolePermissions)) {{ 'selected' }} @endif>{{ $permName }}</option>
                     @endforeach
@@ -47,6 +46,6 @@
     <x-notify-message on="saved" type="success" :message="__($button['submit_response_notyf'])" />
 
     <script>
-
+       
     </script>
 </div>

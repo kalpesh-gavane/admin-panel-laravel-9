@@ -17,11 +17,11 @@ class CreateRole extends Component
         $rules = ($this->action == "updateRole") ? [
             'role.name' => 'required|unique:roles,name,' . $this->roleId
         ] : [
-            'role.guard_name' => 'required',
+            'role.name' => 'required|unique:roles',
         ];
 
         return array_merge([
-            'role.name' => 'required|unique:roles'
+            'role.guard_name' => 'required',
         ], $rules);
     }
 
@@ -58,7 +58,12 @@ class CreateRole extends Component
         $this->resetErrorBag();
         $this->validate();
 
-        Role::find($this->roleId)->update($this->role->toArray());
+        //dd($this->selectedPermissions);
+
+        $role =  Role::find($this->roleId);
+        $role->syncPermissions($this->selectedPermissions);
+        $role->update($this->role->toArray());
+        
         $this->emit('saved');
         return redirect()->to(route('roles.index'));
     }
@@ -69,6 +74,7 @@ class CreateRole extends Component
         if (!$this->role && $this->roleId) {
             $this->role = Role::find($this->roleId);
             $this->rolePermissions =  $this->role->permissions->pluck('name')->toArray();
+            $this->selectedPermissions =  $this->rolePermissions;
         }
 
         $this->permissions = Permission::get();
