@@ -22,6 +22,7 @@
                 <x-jet-input-error for="user.email" class="mt-2" />
             </div>
 
+     
             @if ($action == "createUser")
             <div class="form-group col-span-6 sm:col-span-3">
                 <x-jet-label for="password" value="{{ __('Password') }}" />
@@ -29,7 +30,7 @@
                 <x-jet-input id="password" type="password" class="mt-1 block w-full form-control shadow-none" wire:model.defer="user.password" />
                 <x-jet-input-error for="user.password" class="mt-2" />
             </div>
-
+            
             <div class="form-group col-span-6 sm:col-span-3">
                 <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
                 <small>{{ __('passwords.minPwd') }}</small>
@@ -37,6 +38,17 @@
                 <x-jet-input-error for="user.password_confirmation" class="mt-2" />
             </div>
             @endif
+
+            <div class="form-group col-span-6 sm:col-span-3" wire:ignore>
+                <x-jet-label for="roles" value="{{ __('Roles') }}" />
+                <select class="select2 mt-1 block w-full form-control shadow-none" id="roles" name="roles[]" required multiple="multiple">
+                    <option value="">Select Roles</option>
+                    @foreach ($rolesList as $role)
+                    <option value="{{ $role['id'] }}" >{{ $role['name'] }}</option>
+                    @endforeach
+                </select>
+                <x-jet-input-error for="roles" class="mt-2" />
+            </div>
 
         </x-slot>
 

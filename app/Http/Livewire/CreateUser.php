@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Spatie\Permission\Models\Role;
 
 class CreateUser extends Component
 {
@@ -12,6 +13,8 @@ class CreateUser extends Component
     public $userId;
     public $action;
     public $button;
+    public $rolesList, $selectedRoles = [], $userRoles = [];
+    protected $listeners = ['selectedRole'];
 
     protected function getRules()
     {
@@ -24,8 +27,19 @@ class CreateUser extends Component
 
         return array_merge([
             'user.name' => 'required|min:3',
-            'user.email' => 'required|email|unique:users,email'
+            'user.email' => 'required|email|unique:users,email',
         ], $rules);
+    }
+
+    public function hydrate()
+    {
+        $this->emit('loadSelect2Hydrate');
+    }
+
+    public function selectedRole($value)
+    {
+        $this->selectedRoles =  $value;
+        //  dd($this->selectedRoles);
     }
 
     public function createUser()
@@ -39,7 +53,8 @@ class CreateUser extends Component
             $this->user['password'] = Hash::make($password);
         }
 
-        User::create($this->user);
+        $user =  User::create($this->user);
+        $user->assignRole($this->selectedRoles);
 
         $this->emit('saved');
         $this->reset('user');
@@ -48,10 +63,15 @@ class CreateUser extends Component
 
     public function updateUser()
     {
+
+       // dd($this->user);
+
         $this->resetErrorBag();
         $this->validate();
 
-        User::find($this->userId)->update([
+        $user =    User::find($this->userId);
+        $user->assignRole($this->selectedRoles);
+        $user->update([
             "name" => $this->user->name,
             "email" => $this->user->email,
         ]);
@@ -64,8 +84,11 @@ class CreateUser extends Component
     {
         if (!$this->user && $this->userId) {
             $this->user = User::find($this->userId);
+            // $this->userRoles =  $this->user->roles->pluck('name', 'name')->all();
+            //$this->selectedRoles =  $this->userRoles;
         }
 
+        $this->rolesList = Role::get()->toArray();
         $this->button = create_button($this->action, "User");
     }
 
